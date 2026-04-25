@@ -18,8 +18,16 @@ const Navbar = () => {
             Transactions
           </Link>
 
-          <Link to="/add" className="btn btn-warning">
+          <Link to="/add" className="btn btn-warning me-2">
             + Add
+          </Link>
+
+          <Link to="/login" className="btn btn-outline-light me-2">
+            Login
+          </Link>
+
+          <Link to="/register" className="btn btn-success">
+            Register
           </Link>
         </div>
       </div>
