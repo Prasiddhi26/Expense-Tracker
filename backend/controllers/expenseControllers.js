@@ -2,10 +2,10 @@ const Expense = require("../models/expenseModel");
 
 const createExpense = async (req, res) => {
     try {
-        const { title, amount, category } = req.body;
+        const { title, amount, category, type } = req.body;
 
         // Validation
-        if (!title || !category || amount == null) {
+        if (!title || !category || amount || type == null) {
             return res.status(400).json({
                 message: "All fields are required"
             });
@@ -22,6 +22,7 @@ const createExpense = async (req, res) => {
             title,
             amount,
             category,
+            type,
             date: new Date()
         });
 
@@ -43,7 +44,15 @@ const createExpense = async (req, res) => {
 
 const getAllExpenses = async (req, res) => {
   try {
-    const expenses = await Expense.find();
+    const { type } = req.query;
+
+    let filter = {};
+
+    if (type) {
+      filter.type = type; // income or expense
+    }
+
+    const expenses = await Expense.find(filter).sort({ date: -1 });
 
     res.status(200).json({
       message: "Expenses fetched successfully",
@@ -85,7 +94,7 @@ const deleteExpense = async (req, res) => {
 const updateExpense = async (req, res) => {
     try {
         const id = req.params.id;
-        const { title, amount, category } = req.body;
+        const { title, amount, category, type } = req.body;
 
         // find and update in one step
         const updatedExpense = await Expense.findByIdAndUpdate(
@@ -93,7 +102,8 @@ const updateExpense = async (req, res) => {
             {
                 title,
                 amount,
-                category
+                category,
+                type
             },
             {
                 new: true,        // return updated document
