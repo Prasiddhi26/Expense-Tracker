@@ -1,12 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   return (
     <div className="container py-4">
-
       {/* Top Cards */}
       <div className="row mb-4">
-        
         <div className="col-md-4 mb-3">
           <div className="card shadow-sm">
             <div className="card-body">
@@ -33,14 +32,13 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
       </div>
 
       {/* Add Button */}
       <div className="d-flex justify-content-end mb-3">
-        <button className="btn btn-primary">
+        <Link to="/add" className="btn btn-primary">
           + Add Transaction
-        </button>
+        </Link>
       </div>
 
       {/* Transactions */}
@@ -57,10 +55,8 @@ const Dashboard = () => {
             <span>Salary</span>
             <span className="text-success">+₹20000</span>
           </div>
-
         </div>
       </div>
-
     </div>
   );
 };
