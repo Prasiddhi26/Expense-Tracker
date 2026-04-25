@@ -3,6 +3,7 @@ import Dashboard from "./pages/Dashboard";
 import AddTransaction from "./pages/AddTransaction";
 import Navbar from "./components/Navbar";
 import Transactions from "./pages/Transactions";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/add" element={<AddTransaction />} />
         <Route path="/transactions" element={<Transactions />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
