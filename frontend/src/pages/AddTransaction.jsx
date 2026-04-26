@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { TransactionContext } from "../context/TransactionContext";
 
 const AddTransaction = () => {
+  const { fetchTransactions } = useContext(TransactionContext);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     amount: "",
@@ -9,6 +14,8 @@ const AddTransaction = () => {
     date: "",
   });
 
+  const token = localStorage.getItem("token");
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,9 +23,55 @@ const AddTransaction = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData); // for now
+
+    try {
+      const payload = {
+        title: formData.title,
+        amount: Number(formData.amount),
+        type: formData.type,
+        category: formData.category,
+        date: formData.date ? new Date(formData.date) : new Date(),
+      };
+
+      const res = await fetch("http://localhost:5000/api/expenses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      console.log("Server Response:", data);
+
+      if (!res.ok) {
+        alert(data.message || "Failed to add transaction");
+        return;
+      }
+
+      // refresh dashboard data
+      fetchTransactions();
+
+      // reset form
+      setFormData({
+        title: "",
+        amount: "",
+        type: "expense",
+        category: "",
+        date: "",
+      });
+
+      // ✅ NAVIGATION TO DASHBOARD
+      navigate("/");
+
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong");
+    }
   };
 
   return (

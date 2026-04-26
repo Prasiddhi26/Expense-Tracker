@@ -1,7 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">
@@ -10,25 +18,35 @@ const Navbar = () => {
         </Link>
 
         <div>
-          <Link to="/" className="btn btn-light me-2">
-            Dashboard
-          </Link>
+          {token ? (
+            <>
+              <Link to="/" className="btn btn-light me-2">
+                Dashboard
+              </Link>
 
-          <Link to="/transactions" className="btn btn-light me-2">
-            Transactions
-          </Link>
+              <Link to="/transactions" className="btn btn-light me-2">
+                Transactions
+              </Link>
 
-          <Link to="/add" className="btn btn-warning me-2">
-            + Add
-          </Link>
+              <Link to="/add" className="btn btn-warning me-2">
+                + Add
+              </Link>
 
-          <Link to="/login" className="btn btn-outline-light me-2">
-            Login
-          </Link>
+              <button className="btn btn-danger" onClick={logout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-light me-2">
+                Login
+              </Link>
 
-          <Link to="/register" className="btn btn-success">
-            Register
-          </Link>
+              <Link to="/register" className="btn btn-light">
+                Register
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

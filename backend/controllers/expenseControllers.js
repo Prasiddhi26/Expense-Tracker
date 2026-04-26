@@ -1,17 +1,18 @@
 const Expense = require("../models/expenseModel");
 
 const createExpense = async (req, res) => {
+  console.log(req.body);
     try {
         const { title, amount, category, type } = req.body;
 
         // Validation
-        if (!title || !category || amount || type == null) {
+        if (!title || !category || !amount || !type == null) {
             return res.status(400).json({
                 message: "All fields are required"
             });
         }
 
-        if (amount < 0) {
+        if (Number(amount) < 0) {
             return res.status(400).json({
                 message: "Amount must be a positive number"
             });
