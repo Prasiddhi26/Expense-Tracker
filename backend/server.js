@@ -1,4 +1,5 @@
 const expenseRoutes = require("./routes/expenseRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 require("dotenv").config();
 
@@ -10,8 +11,11 @@ const app = express();
 // Connect database
 connectDB();
 
+
 app.use(express.json());
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/auth", authRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Server is running...");
