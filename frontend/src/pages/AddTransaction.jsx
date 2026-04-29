@@ -35,7 +35,7 @@ const AddTransaction = () => {
         date: formData.date ? new Date(formData.date) : new Date(),
       };
 
-      const res = await fetch("http://localhost:5000/api/expenses", {
+      const res = await fetch("https://expense-tracker-backend-h1es.onrender.com/api/expenses", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
